@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reheat/authentication_service.dart';
-import 'package:reheat/login.dart';
+import 'package:reheat/homepage.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -21,10 +21,13 @@ class _RegisterState extends State<Register> {
   String phone = '';
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     bool isPwdSeen = true;
+    bool isEmail(String em) {
+      String p =
+          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+      RegExp regExp = RegExp(p);
+      return regExp.hasMatch(em);
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,6 +75,18 @@ class _RegisterState extends State<Register> {
                     },
                     controller: nameController,
                     decoration: InputDecoration(
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
                       prefixIcon: const Icon(
                         Icons.person,
                         color: Colors.black,
@@ -99,8 +114,22 @@ class _RegisterState extends State<Register> {
                   elevation: 18,
                   borderRadius: BorderRadius.circular(30),
                   child: TextFormField(
+                    validator: (val) =>
+                        !isEmail(val!) ? '*Invalid email' : null,
                     controller: emailController,
                     decoration: InputDecoration(
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
                       prefixIcon: const Icon(
                         Icons.email,
                         color: Colors.black,
@@ -127,11 +156,23 @@ class _RegisterState extends State<Register> {
                   borderRadius: BorderRadius.circular(30),
                   child: TextFormField(
                     validator: (val) => val!.length < 6
-                        ? 'Password must contain 6 or more characters'
+                        ? '*Password must contain 6 or more characters'
                         : null,
                     obscureText: isPwdSeen,
                     controller: passwordController,
                     decoration: InputDecoration(
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
                       prefixIcon: const Icon(
                         Icons.lock,
                         color: Colors.black,
@@ -157,8 +198,9 @@ class _RegisterState extends State<Register> {
                   elevation: 18,
                   borderRadius: BorderRadius.circular(30),
                   child: TextFormField(
-                    validator: (val) =>
-                        val!.isEmpty || val.length < 10 ? '*Required' : null,
+                    validator: (val) => val!.isEmpty || val.length < 10
+                        ? '*Invalid phone number'
+                        : null,
                     onChanged: (val) {
                       setState(() {
                         phone = val;
@@ -167,6 +209,18 @@ class _RegisterState extends State<Register> {
                     keyboardType: TextInputType.number,
                     controller: phoneController,
                     decoration: InputDecoration(
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(
+                          color: Colors.white,
+                        ),
+                      ),
                       prefixIcon: const Icon(
                         Icons.phone,
                         color: Colors.black,
@@ -206,8 +260,11 @@ class _RegisterState extends State<Register> {
                                   .signUp(
                                       email: emailController.text.trim(),
                                       password: passwordController.text.trim());
-                              if (result == null) {
-                                print('error');
+                              if (result != null) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
                               }
                             }
                           },

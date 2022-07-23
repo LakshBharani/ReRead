@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:291733603396:android:5492ff0f1a38926e28a811",
+        "mobilesdk_app_id": "1:291733603396:android:c795d64e228a0b8028a811",
         "android_client_info": {
-          "package_name": "com.challengers.rereat"
+          "package_name": "com.challengers.reread"
         }
       },
       "oauth_client": [

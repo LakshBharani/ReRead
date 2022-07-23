@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:reheat/authentication_service.dart';
 import 'package:reheat/homepage.dart';
@@ -42,8 +43,29 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AuthenticationWrapper extends StatelessWidget {
+class AuthenticationWrapper extends StatefulWidget {
   const AuthenticationWrapper({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticationWrapper> createState() => _AuthenticationWrapperState();
+}
+
+class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
+  StreamSubscription<User?> user =
+      FirebaseAuth.instance.authStateChanges().listen((user) {
+    if (user == null) {
+      print('User is currently signed out!');
+      Login();
+    } else {
+      print('User is signed in!');
+      HomePage();
+    }
+  });
+  @override
+  void dispose() {
+    user.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
