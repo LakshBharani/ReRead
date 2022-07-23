@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "291733603396",
+    "project_id": "reeat-d7344",
+    "storage_bucket": "reeat-d7344.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291733603396:android:5492ff0f1a38926e28a811",
+        "android_client_info": {
+          "package_name": "com.challengers.rereat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291733603396-6vn66fk97ga693kdlgcabrgelrbr8rcm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF2deeFs7gfPHEhQAZE-INx4mnYTZmV2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291733603396-6vn66fk97ga693kdlgcabrgelrbr8rcm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
