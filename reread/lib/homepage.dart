@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                         (value) => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Login(),
+                            builder: (context) => const Login(),
                           ),
                         ),
                       );
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => UploadBook(),
+                    builder: (context) => const UploadBook(),
                   ),
                 );
               },
@@ -160,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RequestBookPage(),
+                    builder: (context) => const RequestBookPage(),
                   ),
                 );
               },

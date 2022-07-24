@@ -20,13 +20,12 @@ List booktype = [];
 List board = [];
 List grade = [];
 List subject = [];
-List images = [];
+String imagePath = '';
 
 String imageurl = '';
 
 class _UploadBookState extends State<UploadBook> {
   final _formKey = GlobalKey<FormState>();
-
   File? image;
 
   Future pickImage(ImageSource source) async {
@@ -36,17 +35,25 @@ class _UploadBookState extends State<UploadBook> {
       final imageTemporary = File(image.path);
       setState(() {
         this.image = imageTemporary;
-        images.add(image.path);
-        print(images);
+        imagePath = image.path;
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+    print(imagePath);
+    print(image);
+    // Reference ref = FirebaseStorage.instance
+    //     .ref()
+    //     .child('path')
+    //     .child('to')
+    //     .child('filename.txt');
+    // await ref.putFile(image!);
   }
 
   final TextEditingController descController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -378,14 +385,15 @@ class _UploadBookState extends State<UploadBook> {
                               grade.isEmpty ||
                               board.isEmpty ||
                               subject.isEmpty ||
-                              images.isEmpty)) {
+                              imagePath.isEmpty)) {
                             uploadBook();
+                            storage.uploadFile(image!.path, imagePath);
                             setState(() {
                               booktype = [];
                               board = [];
                               grade = [];
                               subject = [];
-                              images = [];
+                              imagePath = '';
                             });
                           }
                         },
@@ -407,19 +415,7 @@ class _UploadBookState extends State<UploadBook> {
     );
   }
 
-  Future uploadFile() async {
-    var uid = firebaseUser?.uid;
-
-    Reference ref = FirebaseStorage.instance.ref().child("images/");
-    await ref.putFile(images[0]!);
-    if (mounted) {
-      imageurl = await ref.getDownloadURL();
-    }
-    print("image Url:" + imageurl);
-  }
-
   Future uploadBook() async {
-    uploadFile();
     var firebaseUser = FirebaseAuth.instance.currentUser;
 
     final docUser = FirebaseFirestore.instance
@@ -450,11 +446,11 @@ class UploadCompletePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 140,
-                child: const Image(
-                    image: AssetImage('lib/assets/images/logo.png')),
-              ),
+              // Container(
+              //   height: 140,
+              //   child: const Image(
+              //       image: AssetImage('lib/assets/imagePath/logo.png')),
+              // ),
               const SizedBox(
                 height: 50,
               ),
@@ -575,5 +571,24 @@ class _filterChipWidgetState extends State<filterChipWidget> {
         });
       },
     );
+  }
+}
+
+class Storage {
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  Future<void> uploadFile(
+    String filePath,
+    String fileName,
+  ) async {
+    File file = File(filePath);
+    try {
+      Reference ref = storage.ref().child(DateTime.now().toString());
+      UploadTask uploadTask = ref.putFile(file);
+      var dowurl = await (await uploadTask).ref.getDownloadURL();
+      imageurl = dowurl.toString();
+      print('ImageURL$imageurl');
+    } on FirebaseException catch (e) {
+      print(e);
+    }
   }
 }

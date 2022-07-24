@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reread/homepage.dart';
+import 'package:reread/uploadbook.dart';
 
 class RequestBookPage extends StatefulWidget {
   const RequestBookPage({Key? key}) : super(key: key);
@@ -282,7 +283,6 @@ class _RequestBookPageState extends State<RequestBookPage> {
                           filterOptions.addAll(booktype);
                           filterOptions.addAll(subject);
                           print(filterOptions);
-
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -434,15 +434,6 @@ class _FilteredResultsPageState extends State<FilteredResultsPage> {
                         print(filterOptions);
                         dataBaseDocOptions.every(
                                 (element) => filterOptions.contains(element))
-                            // (board.isNotEmpty &
-                            //         board.any((element) =>
-                            //             document['boards'].contains(element)) &
-                            //         grade.isNotEmpty &
-                            //         grade.any((element) =>
-                            //             document['grades'].contains(element)) &
-                            //         subject.isNotEmpty &
-                            //         subject.any((element) =>
-                            //             document['subjects'].contains(element)))
                             ? isContainerVisible = true
                             : isContainerVisible = false;
 
@@ -465,7 +456,7 @@ class _FilteredResultsPageState extends State<FilteredResultsPage> {
                                       Center(
                                         child: ConstrainedBox(
                                           constraints: const BoxConstraints(
-                                              minHeight: 103, maxHeight: 350),
+                                              minHeight: 103),
                                           child: ExpansionTile(
                                             collapsedIconColor: Colors.purple,
                                             key: GlobalKey(),
@@ -516,64 +507,45 @@ class _FilteredResultsPageState extends State<FilteredResultsPage> {
                                                     fontSize: 14,
                                                   ),
                                                 ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  "Grades : ${document['grades'].toString().splitMapJoin(',').replaceAll('[', '').replaceAll(']', '')}",
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  "Description : ${document['description'].toString().splitMapJoin(',').replaceAll('[', '').replaceAll(']', '')}",
+                                                  style: const TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                             children: [
                                               Column(
                                                 children: [
-                                                  document
-                                                          .data()
-                                                          .toString()
-                                                          .contains('imageUrl')
-                                                      ? GestureDetector(
-                                                          child: ConstrainedBox(
-                                                            constraints:
-                                                                const BoxConstraints(
-                                                              maxHeight: 135,
-                                                              minHeight: 0,
-                                                            ),
-                                                            child: Container(
-                                                              color: Colors
-                                                                  .amber[100],
-                                                              child: Image.network(
-                                                                  document[
-                                                                      'imageUrl']),
-                                                            ),
-                                                          ),
-                                                          onTap: () {},
-                                                        )
-                                                      : Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8),
-                                                          child: Container(
-                                                            height: 180,
-                                                            color: Colors.white,
-                                                            child: Column(
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    const Text(
-                                                                        'Details: '),
-                                                                    Text(
-                                                                      document[
-                                                                          'description'],
-                                                                      textDirection:
-                                                                          TextDirection
-                                                                              .ltr,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                Container(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  height: 140,
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 8),
+                                                    child: Container(
+                                                      height: 180,
+                                                      color: Colors.white,
+                                                      child: Image(
+                                                          image: NetworkImage(
+                                                              imageurl)),
+                                                    ),
+                                                  ),
                                                   Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.end,
@@ -631,6 +603,14 @@ class _FilteredResultsPageState extends State<FilteredResultsPage> {
                                                                         .green,
                                                                     onPressed:
                                                                         () {
+                                                                      FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              "uploadedBooks")
+                                                                          .doc(document
+                                                                              .id)
+                                                                          .delete();
+
                                                                       Navigator
                                                                           .push(
                                                                         context,
@@ -681,7 +661,7 @@ class _FilteredResultsPageState extends State<FilteredResultsPage> {
                       },
                     ).toList(),
                   )
-                : Container();
+                : Scaffold();
           }),
     );
   }
@@ -698,6 +678,7 @@ class _FinalPageReceiverState extends State<FinalPageReceiver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -716,15 +697,15 @@ class _FinalPageReceiverState extends State<FinalPageReceiver> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            // Text('Thank you for placing order'),
-            // Row(
-            //   children: [
-            //     Text('Contact: '),
-            //     GestureDetector(
-            //       child: Text('00000000'),
-            //     ),
-            //   ],
-            // )
+            Image(image: AssetImage('lib/assets/images/thankyou.jpg')),
+            Row(
+              children: [
+                Text('Contact: '),
+                GestureDetector(
+                  child: Text('00000000'),
+                ),
+              ],
+            )
           ],
         ),
       ),

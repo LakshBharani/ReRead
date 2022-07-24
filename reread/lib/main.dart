@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AuthenticationWrapper(),
+        home: const AuthenticationWrapper(),
       ),
     );
   }
@@ -54,10 +54,10 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
       FirebaseAuth.instance.authStateChanges().listen((user) {
     if (user == null) {
       print('User is currently signed out!');
-      Login();
+      const Login();
     } else {
       print('User is signed in!');
-      HomePage();
+      const HomePage();
     }
   });
   @override
@@ -72,6 +72,6 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     if (firebaseUser != null) {
       return HomePage();
     }
-    return Login();
+    return const Login();
   }
 }
