@@ -1,8 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:reread/homepage.dart';
 import 'package:reread/uploadbook.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class RequestBookPage extends StatefulWidget {
   const RequestBookPage({Key? key}) : super(key: key);
@@ -695,18 +698,51 @@ class _FinalPageReceiverState extends State<FinalPageReceiver> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Image(image: AssetImage('lib/assets/images/thankyou.jpg')),
-            Row(
-              children: [
-                Text('Contact: '),
-                GestureDetector(
-                  child: Text('00000000'),
-                ),
-              ],
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const Image(image: AssetImage('lib/assets/images/thankyou.jpg')),
+              const SizedBox(height: 60),
+              Row(
+                children: const [
+                  Text('Sender Name : '),
+                  Text(
+                    'Pranav Mahajan',
+                    style: TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: const [
+                  Text('Email id : '),
+                  Text(
+                    'pranav.mahajan@gmail.com',
+                    style: TextStyle(
+                        color: Colors.blue, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Text('Contact (tap to redirect) : '),
+                  GestureDetector(
+                    child: const Text(
+                      '9972644523',
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {
+                      UrlLauncher.launch("tel:9927644523");
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
