@@ -54,41 +54,41 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               // popupmenu item 2
-              PopupMenuItem(
-                onTap: () {
-                  showAboutDialog(
-                    context: context,
-                    applicationIcon: const FlutterLogo(),
-                    applicationName: 'ReRead',
-                    applicationVersion: '',
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Text('About Us',
-                            style: Theme.of(context).textTheme.button),
-                      )
-                    ],
-                  );
-                  showAboutDialog(context: context);
-                },
-                value: 2,
-                // row has two child icon and text
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.chrome_reader_mode,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "About",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
-              ),
+              // PopupMenuItem(
+              //   onTap: () {
+              //     showAboutDialog(
+              //       context: context,
+              //       applicationIcon: const FlutterLogo(),
+              //       applicationName: 'ReRead',
+              //       applicationVersion: '',
+              //       children: <Widget>[
+              //         Padding(
+              //           padding: const EdgeInsets.only(top: 15),
+              //           child: Text('About Us',
+              //               style: Theme.of(context).textTheme.button),
+              //         )
+              //       ],
+              //     );
+              //     showAboutDialog(context: context);
+              //   },
+              //   value: 2,
+              //   // row has two child icon and text
+              //   child: Row(
+              //     children: const [
+              //       Icon(
+              //         Icons.chrome_reader_mode,
+              //         color: Colors.white,
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Text(
+              //         "About",
+              //         style: TextStyle(color: Colors.white),
+              //       )
+              //     ],
+              //   ),
+              // ),
             ],
             offset: const Offset(0, 50),
             color: Colors.black,
